@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useSprings, animated, config } from 'react-spring';
+import { useSprings, animated } from 'react-spring';
 import SizeSelection from './components/SizeSelection';
 import ElementManipulation from './components/ElementManipulation';
 
 
 function App() {
   const [getPosition, setPosition] = useState([{ y: 0, x: 0, id: 1 }]);
-  const [cubeSize, setCubeSize] = useState({width: 100,height: 100})
-  const [areaPlace, setAreaPlace] = useState({width: 800,height: 500})
+  const [cubeSize, setCubeSize] = useState({width: 100,height: 100});
+  const areaPlace = {width: 800,height: 500};
 
   const changeCubeSiza = (size) => {
     !!size.width ? 
