@@ -32,20 +32,23 @@ function ElementManipulation({cubeSize, areaPlace}) {
   // удаление елемента
   const handleRemoveElement = () => {
 
-    dispatch(changeCubes(cubes.map((item, index) => {
-      if (index === 0) {
+    if (cubes.length > 1 ) {
 
-        // подсчет до левой границы
-        const distanceToBorder = (maxNumberElementsInLine - (index+1 % maxNumberElementsInLine)) * cubeSize.width + cubeSize.width
-
-        // перемешение к границу
-        return {...item, x: distanceToBorder}
+      dispatch(changeCubes(cubes.map((item, index) => {
+        if (index === 0) {
+  
+          // подсчет до левой границы
+          const distanceToBorder = (maxNumberElementsInLine - (index+1 % maxNumberElementsInLine)) * cubeSize.width + cubeSize.width
+  
+          // перемешение к границу
+          return {...item, x: distanceToBorder}
+        }
+        return item
+      })))
+  
+      // удаление елемента из массива
+      setTimeout(()=> {dispatch(changeCubes([...cubes].slice(1)));}, 1500)
       }
-      return item
-    })))
-
-    // удаление елемента из массива
-    setTimeout(()=> {dispatch(changeCubes([...cubes].slice(1)));}, 1500)
     
   };
     

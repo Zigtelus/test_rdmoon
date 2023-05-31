@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 function SizeSelection({ widthArea, heightArea, changeCubeSize }) {
-
+  
+  const cubes = useSelector(state => state.cubesSlice.cubes)
 
   const findSize =((number)=> {
     const numbers = [];
@@ -16,11 +18,17 @@ function SizeSelection({ widthArea, heightArea, changeCubeSize }) {
   })
 
   const handleClick = (event, sizeType) => {
-    const selectedSize = parseInt(event.target.innerText);
-    if (sizeType === "width") {
-      changeCubeSize({ width: selectedSize, height: 0 });
-    } else if (sizeType === "height") {
-      changeCubeSize({ width: 0, height: selectedSize });
+    
+    if (cubes.length > 1) {
+      alert("кубов больше 1")
+    } else {
+      const selectedSize = parseInt(event.target.innerText);
+
+      if (sizeType === "width") {
+        changeCubeSize({ width: selectedSize, height: 0 });
+      } else if (sizeType === "height") {
+        changeCubeSize({ width: 0, height: selectedSize });
+      }
     }
   };
 
