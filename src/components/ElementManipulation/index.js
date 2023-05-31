@@ -1,4 +1,12 @@
-function ElementManipulation({getPosition, cubeSize, areaPlace, setPosition}) {
+import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { changeCubes } from '../../redux/cubesSlice';
+
+
+function ElementManipulation({cubeSize, areaPlace}) {
+
+  const cubes = useSelector(state => state.cubesSlice.cubes);
+  const dispatch = useDispatch();
 
   // максимальное количество елементов
   const maxNumberElements = (areaPlace.height / cubeSize.width) * (areaPlace.width / cubeSize.height)
@@ -24,7 +32,7 @@ function ElementManipulation({getPosition, cubeSize, areaPlace, setPosition}) {
   // удаление елемента
   const handleRemoveElement = () => {
 
-    setPosition(state => state.map((item, index) => {
+    dispatch(changeCubes(cubes.map((item, index) => {
       if (index === 0) {
 
         // подсчет до левой границы
@@ -34,25 +42,25 @@ function ElementManipulation({getPosition, cubeSize, areaPlace, setPosition}) {
         return {...item, x: distanceToBorder}
       }
       return item
-    }))
+    })))
 
     // удаление елемента из массива
-    setTimeout(()=> {setPosition(state => [...state].slice(1));}, 1500)
+    setTimeout(()=> {dispatch(changeCubes([...cubes].slice(1)));}, 1500)
     
   };
     
   // добавление елемента
   const handleAddElement = () => {
     
-    maxNumberElements !== getPosition.length 
+    maxNumberElements !== cubes.length 
     &&
-    setPosition(state => [ // обновление 
+    dispatch(changeCubes([ // обновление 
 
       // разорхивирование нового массива, который собрал map
-      ...state.map((item, index)=> {
+      ...cubes.map((item, index)=> {
 
         // все числа необходмые для переноса
-        const numbers = findFifthAndTenthNumbers(state.length+1) 
+        const numbers = findFifthAndTenthNumbers(cubes.length+1) 
 
         // проверка есть ли данный елемент в массиве чиселн, на перенос
         for (let i = 1; i < numbers.length; i++) {
@@ -65,8 +73,8 @@ function ElementManipulation({getPosition, cubeSize, areaPlace, setPosition}) {
       }), 
 
       // добавление нового елемента
-      { x: state[state.length - 1].x, y: 0, id: state[state.length - 1].id +1}
-    ]);
+      { x: cubes[cubes.length - 1].x, y: 0, id: cubes[cubes.length - 1].id +1}
+    ]))
   };
 
   return <div style={{margin: "20px"}}>

@@ -2,22 +2,24 @@ import { useState } from 'react';
 import { useSprings, animated } from 'react-spring';
 import SizeSelection from './components/SizeSelection';
 import ElementManipulation from './components/ElementManipulation';
+import { useSelector } from 'react-redux';
 
 
 function App() {
-  const [getPosition, setPosition] = useState([{ y: 0, x: 0, id: 1 }]);
+  const cubes = useSelector(state => state.cubesSlice.cubes);
+
   const [cubeSize, setCubeSize] = useState({width: 100,height: 100});
   const areaPlace = {width: 800,height: 500};
 
-  const changeCubeSiza = (size) => {
+  const changeCubeSize = (size) => {
     !!size.width ? 
     setCubeSize({width: size.width, height: cubeSize.height}) :
     setCubeSize({height: size.height, width: cubeSize.width})
   }
 
   const springs = useSprings(
-    getPosition.length,
-    getPosition.map((item, index) => ({
+    cubes.length,
+    cubes.map((item, index) => ({
       from: { transform: `translateX(-${cubeSize.width}px)` },
       to: { background: '#ff6d6d', transform: `translate(${item.x}px, ${item.y}px)` },
     })),
@@ -28,14 +30,12 @@ function App() {
       <SizeSelection 
         widthArea={areaPlace.width} 
         heightArea={areaPlace.height} 
-        changeCubeSiza={changeCubeSiza}
+        changeCubeSize={changeCubeSize}
       />
 
       <ElementManipulation 
-        getPosition={getPosition} 
         cubeSize={cubeSize} 
         areaPlace={areaPlace} 
-        setPosition={setPosition} 
       />
 
       <div 
@@ -50,7 +50,7 @@ function App() {
       >
       {springs.map((spring, index) => (
         <animated.div
-          key={getPosition[index].id}
+          key={cubes[index].id}
           style={{
             position: 'absolute',
             width: cubeSize.width,
@@ -59,7 +59,7 @@ function App() {
             transition: '1s',
             ...spring,
           }}
-      >{getPosition[index].id}</animated.div>))}
+      >{cubes[index].id}</animated.div>))}
       </div>
     </>
   );

@@ -1,7 +1,9 @@
-function SizeSelection({ widthArea, heightArea, changeCubeSiza }) {
+import React from 'react';
+
+function SizeSelection({ widthArea, heightArea, changeCubeSize }) {
 
 
-  function findSize(number) {
+  const findSize =((number)=> {
     const numbers = [];
 
     for (let i = 1; i < number; i++) {
@@ -11,14 +13,14 @@ function SizeSelection({ widthArea, heightArea, changeCubeSiza }) {
     }
 
     return numbers;
-  }
+  })
 
   const handleClick = (event, sizeType) => {
     const selectedSize = parseInt(event.target.innerText);
     if (sizeType === "width") {
-      changeCubeSiza({ width: selectedSize, height: 0 });
+      changeCubeSize({ width: selectedSize, height: 0 });
     } else if (sizeType === "height") {
-      changeCubeSiza({ width: 0, height: selectedSize });
+      changeCubeSize({ width: 0, height: selectedSize });
     }
   };
 
